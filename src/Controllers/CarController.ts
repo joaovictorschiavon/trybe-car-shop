@@ -23,11 +23,12 @@ export default class CarController {
       status: this.req.body.status || false,
       buyValue: this.req.body.buyValue,
       doorsQty: this.req.body.doorsQty,
-      seatsQty: this.req.body.seatQty,
+      seatsQty: this.req.body.seatsQty,
     };
-
+    console.log(this.req.body);
     try {
-      const newCar = await this.service.registerCar(car);
+      const newCar = await this.service.create(car);
+      console.log(newCar);
       return this.res.status(201).json(newCar);
     } catch (err) {
       this.next(err);

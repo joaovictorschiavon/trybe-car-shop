@@ -10,7 +10,8 @@ export default class CarService {
     return null;
   }
 
-  public async registerCar(data: ICar) {
+  public async create(data: ICar) {
+    console.log('service', data);
     const carODM = new CarODM();
     const newCar = await carODM.create(data);
     return this.createCarDomain(newCar);
