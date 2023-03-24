@@ -3,11 +3,9 @@ import {
   Schema,
   model, 
   models,
-  isValidObjectId,
   UpdateQuery,
 } from 'mongoose';
 import ICar from '../Interfaces/ICar';
-import IdInvalidError from '../Erros/IdInvalidError';
 
 export default class CarDOm {
   private schema: Schema;
@@ -30,14 +28,24 @@ export default class CarDOm {
     return this.model.create({ ...car });
   }
 
-  public async update(id: string, obj: Partial<ICar>):
+  public async updateCar(_id: string, car: Partial<ICar>):
   Promise<ICar | null> {
-    if (!isValidObjectId(id)) throw new IdInvalidError('Invalid Mongo id');
-
     return this.model.findByIdAndUpdate(
-      { _id: id },
-      { ...obj } as UpdateQuery<ICar>,
+      { _id },
+      { ...car } as UpdateQuery<ICar>,
       { new: true },
     );    
   }
+
+  public async getCars() {
+    return this.model.find();
+  }
+
+  public async getCarById(id: string) {
+    return this.model.findById(id);
+  }
+
+  // public async updateCar(id: string, car: ICar) {
+  //   return this.model.findByIdAndUpdate(id, car);
+  // }
 }

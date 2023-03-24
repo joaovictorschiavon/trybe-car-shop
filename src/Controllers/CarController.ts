@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import CarService from '../Services/CarService';
 import ICar from '../Interfaces/ICar';
+// import IdInvalidError from '../Erros/IdInvalidError';
+// import NotFoundError from '../Erros/NotFoundError';
 
 export default class CarController {
   private req: Request;
@@ -25,11 +27,56 @@ export default class CarController {
       doorsQty: this.req.body.doorsQty,
       seatsQty: this.req.body.seatsQty,
     };
-    console.log(this.req.body);
     try {
       const newCar = await this.service.create(car);
-      console.log(newCar);
       return this.res.status(201).json(newCar);
+    } catch (err) {
+      this.next(err);
+    }
+  }
+
+  public async getAll() {
+    try {
+      const cars = await this.service.getCars();
+      return this.res.status(200).json(cars);
+    } catch (err) {
+      this.next(err);
+    }
+  }
+
+  public async getById() {
+    const { id } = this.req.params;
+
+    if (id.length !== 24 || !id) {
+      return this.res.status(422).json({ message: 'Invalid mongo id' });
+    }    
+
+    try {
+      const car = await this.service.getCarById(id);
+
+      if (!car) return this.res.status(404).json({ message: 'Car not found' });
+
+      return this.res.status(200).json(car);
+    } catch (err) {
+      this.next(err);
+    }
+  }
+
+  public async updateCar() {
+    try {
+      const { id } = this.req.params;
+
+      if (id.length !== 24) return this.res.status(422).json({ message: 'Invalid mongo id' });  
+        
+      const { model, year, color, status, buyValue, doorsQty, seatsQty } = this.req.body;
+
+      const car: ICar = { model, year, color, status, buyValue, doorsQty, seatsQty };
+
+      const newCar = await this.service.updateCar(id, car);
+
+      if (!newCar) return this.res.status(404).json({ message: 'Car not found' });
+
+      return this.res.status(200).json(newCar);
     } catch (err) {
       this.next(err);
     }
