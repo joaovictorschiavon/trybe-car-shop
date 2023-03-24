@@ -2,6 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import MotorcycleService from '../Services/MotorcycleService';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 
+const INVALID_ID = 'Invalid mongo id';
+const MOTROCYCLE_NOT_FOUND = 'Motorcycle not found';
+
 export default class MotorcycleController {
   private req: Request;
   private res: Response;
@@ -46,13 +49,13 @@ export default class MotorcycleController {
     const { id } = this.req.params;
 
     if (id.length !== 24 || !id) {
-      return this.res.status(422).json({ message: 'Invalid mongo id' });
+      return this.res.status(422).json({ message: INVALID_ID });
     }    
 
     try {
       const motorcycle = await this.service.getMotorcycleById(id);
 
-      if (!motorcycle) return this.res.status(404).json({ message: 'Motorcycle not found' });
+      if (!motorcycle) return this.res.status(404).json({ message: MOTROCYCLE_NOT_FOUND });
 
       return this.res.status(200).json(motorcycle);
     } catch (err) {
@@ -64,7 +67,7 @@ export default class MotorcycleController {
     try {
       const { id } = this.req.params;
 
-      if (id.length !== 24) return this.res.status(422).json({ message: 'Invalid mongo id' });  
+      if (id.length !== 24) return this.res.status(422).json({ message: INVALID_ID });  
         
       const { model, year, color, status, buyValue, category, engineCapacity } = this.req.body;
 
@@ -73,9 +76,25 @@ export default class MotorcycleController {
 
       const newMotorcycle = await this.service.updateMotorcycle(id, motorcycle);
 
-      if (!newMotorcycle) return this.res.status(404).json({ message: 'Motorcycle not found' });
+      if (!newMotorcycle) return this.res.status(404).json({ message: MOTROCYCLE_NOT_FOUND });
 
       return this.res.status(200).json(newMotorcycle);
+    } catch (err) {
+      this.next(err);
+    }
+  }
+
+  public async deleteMotorcycle() {
+    try {
+      const { id } = this.req.params;
+
+      if (id.length !== 24) return this.res.status(422).json({ message: INVALID_ID });
+
+      const deletedMotorcycle = await this.service.deleteMotorcycle(id);
+
+      if (!deletedMotorcycle) return this.res.status(404).json({ message: MOTROCYCLE_NOT_FOUND });
+
+      return this.res.status(204).json({});
     } catch (err) {
       this.next(err);
     }

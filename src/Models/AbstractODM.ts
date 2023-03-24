@@ -30,6 +30,10 @@ abstract class AbstractODM<T> {
   public async getById(_id: string): Promise<T | null> {
     return this.model.findById(_id);
   }
+
+  public async delete(_id: string): Promise<T | null> {
+    return this.model.findByIdAndDelete(_id);
+  }
 }
 
 export default AbstractODM;
