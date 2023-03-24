@@ -1,30 +1,35 @@
-// import { model, Model, models, Schema, UpdateQuery, isValidObjectId } from 'mongoose';
-// import IdInvalidError from '../Erros/IdInvalidError';
+import { model, Model, models, Schema, UpdateQuery } from 'mongoose';
 
-// abstract class AbstractODM<T> {
-//   protected model: Model<T>;
-//   protected schema: Schema;
-//   protected modelName: string;
+abstract class AbstractODM<T> {
+  protected model: Model<T>;
+  protected schema: Schema;
+  protected modelName: string;
 
-//   constructor(schema: Schema, modelName: string) {
-//     this.schema = schema;
-//     this.modelName = modelName;
-//     this.model = models[this.modelName] || model(this.modelName, this.schema);
-//   }
+  constructor(schema: Schema, modelName: string) {
+    this.schema = schema;
+    this.modelName = modelName;
+    this.model = models[this.modelName] || model(this.modelName, this.schema);
+  }
 
-//   public async create(obj: T): Promise<T> {
-//     return this.model.create({ ...obj });
-//   }
+  public async create(obj: T): Promise<T> {
+    return this.model.create({ ...obj });
+  }
 
-//   public async update(_id: string, obj: Partial<T>): Promise<T | null> {
-//     if (isValidObjectId(_id)) throw new IdInvalidError('Invalid Mongo id');   
+  public async update(_id: string, obj: Partial<T>): Promise<T | null> {
+    return this.model.findByIdAndUpdate(
+      { _id },
+      { ...obj } as UpdateQuery<T>,
+      { new: true },
+    );
+  }
 
-//     return this.model.findByIdAndUpdate(
-//       { _id },
-//       { ...obj } as UpdateQuery<T>,
-//       { new: true },
-//     );
-//   }
-// }
+  public async getAll(): Promise<T[]> {
+    return this.model.find();
+  }
 
-// export default AbstractODM;
+  public async getById(_id: string): Promise<T | null> {
+    return this.model.findById(_id);
+  }
+}
+
+export default AbstractODM;
