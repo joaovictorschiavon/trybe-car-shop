@@ -1,16 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 
+interface IError extends Error {
+  statusCode: number;
+  name: string;
+}
 export default class ErrorHandler {
   public static handle(
-    err: Error,
+    err: IError,
     _req: Request,
     res: Response,
     _next: NextFunction,
   ) {
-    if (err instanceof Error && err.stack) {
-      return res.status(parseInt(err.stack, 10)).json({ message: err.stack });
+    if (err.name) {
+      return res.status(err.statusCode).json({ message: err.message });
     }
-    
+
     return res.status(500).json({ message: err.message });
   }
 }

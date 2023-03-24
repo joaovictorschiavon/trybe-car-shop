@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import CarService from '../Services/CarService';
 import ICar from '../Interfaces/ICar';
 
-const INVALID_ID = 'Invalid mongo id';
-const CAR_NOT_FOUND = 'Car not found';
 export default class CarController {
   private req: Request;
   private res: Response;
@@ -47,14 +45,14 @@ export default class CarController {
   public async getById() {
     const { id } = this.req.params;
 
-    if (id.length !== 24 || !id) {
-      return this.res.status(422).json({ message: INVALID_ID });
-    }    
+    // if (id.length !== 24 || !id) {
+    //   return this.res.status(422).json({ message: INVALID_ID });
+    // }    
 
     try {
       const car = await this.service.getCarById(id);
 
-      if (!car) return this.res.status(404).json({ message: CAR_NOT_FOUND });
+      // if (!car) return this.res.status(404).json({ message: CAR_NOT_FOUND });
 
       return this.res.status(200).json(car);
     } catch (err) {
@@ -66,7 +64,7 @@ export default class CarController {
     try {
       const { id } = this.req.params;
 
-      if (id.length !== 24) return this.res.status(422).json({ message: INVALID_ID });  
+      // if (id.length !== 24) return this.res.status(422).json({ message: INVALID_ID });  
         
       const { model, year, color, status, buyValue, doorsQty, seatsQty } = this.req.body;
 
@@ -74,7 +72,7 @@ export default class CarController {
 
       const newCar = await this.service.updateCar(id, car);
 
-      if (!newCar) return this.res.status(404).json({ message: CAR_NOT_FOUND });
+      // if (!newCar) return this.res.status(404).json({ message: CAR_NOT_FOUND });
 
       return this.res.status(200).json(newCar);
     } catch (err) {
@@ -86,11 +84,11 @@ export default class CarController {
     try {
       const { id } = this.req.params;
 
-      if (id.length !== 24) return this.res.status(422).json({ message: INVALID_ID });
+      // if (id.length !== 24) return this.res.status(422).json({ message: INVALID_ID });
 
-      const deletedCar = await this.service.deleteCar(id);
+      /* const deletedCar =  */await this.service.deleteCar(id);
 
-      if (!deletedCar) return this.res.status(404).json({ message: CAR_NOT_FOUND });
+      // if (!deletedCar) return this.res.status(404).json({ message: CAR_NOT_FOUND });
 
       return this.res.status(204).json({});
     } catch (err) {
