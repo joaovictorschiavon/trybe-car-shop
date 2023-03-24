@@ -16,23 +16,23 @@ export default class MotorcycleService {
     return this.createMotorcycleDomain(newMotorcycle);
   }
 
-  // public async getCars() {
-  //   const carODM = new CarODM();
-  //   const cars = await carODM.getCars();
-  //   return cars.map((car) => this.createCarDomain(car));
-  // }
+  public async getMotorcycles() {
+    const motorcycleODM = new MotorcycleODM();
+    const motorcycles = await motorcycleODM.getAll();
+    return motorcycles.map((motorcycle) => this.createMotorcycleDomain(motorcycle));
+  }
 
-  // public async getCarById(id: string) {
-  //   const carODM = new CarODM();
-  //   const car = await carODM.getCarById(id);
-  //   return this.createCarDomain(car);
-  // }
+  public async getMotorcycleById(id: string) {
+    const motorcycleODM = new MotorcycleODM();
+    const motorcycle = await motorcycleODM.getById(id);
+    return this.createMotorcycleDomain(motorcycle);
+  }
   
-  // public async updateCar(id: string, car: ICar) {
-  //   const carODM = new CarODM();
+  public async updateMotorcycle(id: string, motorcycle: IMotorcycle) {
+    const motorcycleODM = new MotorcycleODM();
 
-  //   const newCar = await carODM.updateCar(id, car);
+    const newMotorcycle = await motorcycleODM.update(id, motorcycle);
 
-  //   return this.createCarDomain(newCar);
-  // }
+    return this.createMotorcycleDomain(newMotorcycle);
+  }
 }

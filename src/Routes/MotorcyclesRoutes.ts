@@ -7,8 +7,17 @@ MotorcyclesRoutes.post(
   '/motorcycles',
   (req, res, next) => new MotorcycleController(req, res, next).registerMotorcycle(),
 );
-// CarRoutes.get('/cars/:id', (req, res, next) => new CarController(req, res, next).getById());
-// CarRoutes.get('/cars', (req, res, next) => new CarController(req, res, next).getAll());
-// CarRoutes.put('/cars/:id', (req, res, next) => new CarController(req, res, next).updateCar());
+MotorcyclesRoutes.get(
+  '/motorcycles/:id',
+  (req, res, next) => new MotorcycleController(req, res, next).getById(),
+);
+MotorcyclesRoutes.get(
+  '/motorcycles',
+  (req, res, next) => new MotorcycleController(req, res, next).getAll(),
+);
+MotorcyclesRoutes.put(
+  '/motorcycles/:id',
+  (req, res, next) => new MotorcycleController(req, res, next).updateMotorcycle(),
+);
 
 export default MotorcyclesRoutes;

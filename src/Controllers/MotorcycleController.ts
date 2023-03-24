@@ -33,50 +33,51 @@ export default class MotorcycleController {
     }
   }
 
-  // public async getAll() {
-  //   try {
-  //     const cars = await this.service.getCars();
-  //     return this.res.status(200).json(cars);
-  //   } catch (err) {
-  //     this.next(err);
-  //   }
-  // }
+  public async getAll() {
+    try {
+      const motorcycles = await this.service.getMotorcycles();
+      return this.res.status(200).json(motorcycles);
+    } catch (err) {
+      this.next(err);
+    }
+  }
 
-  // public async getById() {
-  //   const { id } = this.req.params;
+  public async getById() {
+    const { id } = this.req.params;
 
-  //   if (id.length !== 24 || !id) {
-  //     return this.res.status(422).json({ message: 'Invalid mongo id' });
-  //   }    
+    if (id.length !== 24 || !id) {
+      return this.res.status(422).json({ message: 'Invalid mongo id' });
+    }    
 
-  //   try {
-  //     const car = await this.service.getCarById(id);
+    try {
+      const motorcycle = await this.service.getMotorcycleById(id);
 
-  //     if (!car) return this.res.status(404).json({ message: 'Car not found' });
+      if (!motorcycle) return this.res.status(404).json({ message: 'Motorcycle not found' });
 
-  //     return this.res.status(200).json(car);
-  //   } catch (err) {
-  //     this.next(err);
-  //   }
-  // }
+      return this.res.status(200).json(motorcycle);
+    } catch (err) {
+      this.next(err);
+    }
+  }
 
-  // public async updateCar() {
-  //   try {
-  //     const { id } = this.req.params;
+  public async updateMotorcycle() {
+    try {
+      const { id } = this.req.params;
 
-  //     if (id.length !== 24) return this.res.status(422).json({ message: 'Invalid mongo id' });  
+      if (id.length !== 24) return this.res.status(422).json({ message: 'Invalid mongo id' });  
         
-  //     const { model, year, color, status, buyValue, doorsQty, seatsQty } = this.req.body;
+      const { model, year, color, status, buyValue, category, engineCapacity } = this.req.body;
 
-  //     const car: ICar = { model, year, color, status, buyValue, doorsQty, seatsQty };
+      const motorcycle:
+      IMotorcycle = { model, year, color, status, buyValue, category, engineCapacity };
 
-  //     const newCar = await this.service.updateCar(id, car);
+      const newMotorcycle = await this.service.updateMotorcycle(id, motorcycle);
 
-  //     if (!newCar) return this.res.status(404).json({ message: 'Car not found' });
+      if (!newMotorcycle) return this.res.status(404).json({ message: 'Motorcycle not found' });
 
-  //     return this.res.status(200).json(newCar);
-  //   } catch (err) {
-  //     this.next(err);
-  //   }
-  // }
+      return this.res.status(200).json(newMotorcycle);
+    } catch (err) {
+      this.next(err);
+    }
+  }
 }
