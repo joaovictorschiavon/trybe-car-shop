@@ -2,18 +2,18 @@
 ---
 Este projeto tem por objetivo a utilização do ORM Mangoose com Typescript com princípios do SOLID, arquitetura MSC e paradigma POO para desenvolver uma API de cadastro de veículos automotivos em um banco de dados relacional MongoDB.
 
-#Tecnologias
--___Docker___
--___ESLint___
--___Git___
--___VSCode___
--___SOLID___
--___POO___
--___Node.js___
--___Typescript___
--___MSC___
--___MongoDB___
--___Mangoose___
+#Tecnologias  
+-___Docker___  
+-___ESLint___  
+-___Git___  
+-___VSCode___  
+-___SOLID___  
+-___POO___  
+-___Node.js___  
+-___Typescript___  
+-___MSC___  
+-___MongoDB___  
+-___Mangoose___  
 
 #Como usar
 Para a utilização do repositório no desenvolvimento foi configurado um `Docker compose`
